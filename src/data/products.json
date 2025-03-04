@@ -1,0 +1,59 @@
+[
+     {
+          "id": 1,
+          "title": "Samsung A31",
+          "description": "Celular economico",
+          "price": 250,
+          "code": "SA25",
+          "stock": [],
+          "thumbnails": true,
+          "status": 25,
+          "category": "Celulares"
+     },
+     {
+          "id": 2,
+          "title": "Samsung S25",
+          "description": "Celular de alta gama",
+          "price": 1250,
+          "code": "SA25",
+          "stock": [],
+          "thumbnails": true,
+          "status": 25,
+          "category": "Celulares"
+     },
+     {
+          "id": 3,
+          "title": "Iphone 16 pro",
+          "description": "Celular premium con fotos de alta resolucion",
+          "price": 180,
+          "code": "IPH16",
+          "stock": [],
+          "thumbnails": true,
+          "status": 16,
+          "category": "Celulares"
+     },
+     {
+          "id": 4,
+          "title": "Samsung A53",
+          "description": "Un celular para tu bolsillo",
+          "code": "SA53",
+          "price": 385,
+          "status": true,
+          "stock": 28,
+          "category": "Celulares",
+          "thumbnails": []
+     },
+     {
+          "id": 5,
+          "title": "IPAD Pro",
+          "description": "La tablet con mejores prestaciones del mercado",
+          "code": "IPp",
+          "price": 675,
+          "status": true,
+          "stock": 14,
+          "category": "Tablets",
+          "thumbnails": [
+               "https://cdsassets.apple.com/live/SZLF0YNV/images/sp/111979_ipad-pro-12-2018.png"
+          ]
+     }
+]
