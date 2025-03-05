@@ -13,10 +13,6 @@ class CartManager {
         const data = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
         
         const cart = data.find(cart => cart.id === id)
-
-        if(!cart){
-            return `No se encontró el carrito con el id ${id}`
-        }
         return cart
     }
     async getCarts(){
@@ -31,21 +27,20 @@ class CartManager {
         const newCart = { id: carts.length + 1, products:[]}
 
         carts.push(newCart)
-        await fs.writeFile(this.path, JSON.stringify(carts, null, 5), (e) => console.log(e))
+        await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 5))
         return
     }
     
     async addProductToCart(idCart, idProd, units){
         const carts = await this.getCarts()
     
-        const cart = carts.find(c => c.id === idCart) // => Objeto 
+        const cart = carts.find(c => c.id === idCart) 
         
         if(!cart){
             throw new Error(`No se encontro el carrito`)
         }
         const index = carts.indexOf(cart)
         const cartProductsList = cart.products
-        // Verifico que el producto ya exista en el array de productos
         const product = cartProductsList.find(p => p.product === idProd)
     
         if(!product){
