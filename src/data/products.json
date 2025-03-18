@@ -67,11 +67,11 @@
      {
           "id": 6,
           "title": "Macbook Pro 13",
-          "description": "sdjladjlasjd",
+          "description": "La mejor laptop de Apple",
           "code": "MAC13",
-          "price": "1299",
+          "price": "1499",
           "status": "true",
           "stock": "12",
-          "thumbnails": "/images/macbook.jpg"
+          "thumbnails": []
      }
 ]

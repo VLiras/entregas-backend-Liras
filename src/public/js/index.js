@@ -5,11 +5,7 @@ const getThumbnails = () => {
     if(thumb == undefined || thumb == ''){
         return []
     }
-    return getPath(thumb)
-}
-const getPath = (originalPath) => {
-    const fileName = originalPath.split("\\").pop();
-    return `/images/${fileName}`
+    return thumb
 }
 
 const sendProduct = () => {
@@ -39,8 +35,9 @@ socket.on("newProduct", () => {
 const dropButton = document.querySelectorAll('.dropButton')
 dropButton.forEach(button => {
     button.addEventListener('click', () => {
-        const id = button.parentNode.parentNode.parentNode.parentNode.id
-        socket.emit('drop', id)
+        // Busco el id del boton eliminar de cada card
+        const id = button.parentNode.parentNode.parentNode.id
+        socket.emit('drop', Number(id))
     })
 })
 

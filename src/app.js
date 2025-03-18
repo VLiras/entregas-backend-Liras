@@ -22,7 +22,6 @@ app.use("/api/products", (req, res, next) => {
     req.io = io
     next()
 } ,routerProducts)
-// app.use("/api/products", routerProducts)
 app.use("/api/carts", routerCarts)
 
 app.use(express.static('./views'))
@@ -31,17 +30,8 @@ app.use(express.static(__dirname + '/public'))
 
 // App
 app.get("/", async (req, res) => {
-    // res.status(200).send({message:"Bienvenido a Mundo Tech! El mejor retail de tecnologia"})
-    console.log(__dirname)
-    try{
-        const products = await productManager.getProducts()
-        res.status(200).render("home", {products})
-    }
-    catch(err){
-        console.error({error: err})
-    }
+    res.status(200).send({message:"Bienvenido a Mundo Tech! El mejor retail de tecnologia"})
 })
-
 
 const serverHttp = app.listen(port, () => {
     console.log(`Servidor corriendo en el puerto ${port}`)
@@ -49,17 +39,17 @@ const serverHttp = app.listen(port, () => {
 io = new Server(serverHttp)
 
 const productManager = new ProductManager("./src/data/products.json")
+
+// Conexion server websocket
 io.on("connection", socket => {
     console.log("Nuevo cliente conectado")
 
     socket.on("new", async product => {
-        // console.log(Object.values(product))
         await productManager.addProduct(product)
         io.emit("newProduct", product)
     })
     socket.on('drop', async id => {
-        console.log(`Id recibido: ${id}`)
-        await productManager.deleteProduct(Number(id))
+        await productManager.deleteProduct(id)
         io.emit('deleteProduct', id)
     })
 
