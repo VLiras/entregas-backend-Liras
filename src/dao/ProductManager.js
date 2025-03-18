@@ -1,4 +1,5 @@
-const fs = require("fs")
+// import fs from 'fs'
+const fs = require('fs')
 
 class ProductManager {
     constructor(path) {
@@ -45,7 +46,7 @@ class ProductManager {
         let products = await this.getProducts()
         const productToDelete = products.find((product) => product.id === id)
         if(!productToDelete){
-            throw new Error(`Error: producto no encontrado`)
+            throw new Error(`Producto no encontrado`)
         }
         products = products.filter(p => p.id !== id)
         await fs.promises.writeFile(this.path, JSON.stringify(products, null, 5))

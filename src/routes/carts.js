@@ -1,6 +1,6 @@
 const {Router} = require("express")
-const {CartManager} = require("../dao/CartManager.js")
-// const {} = require("../../data/carts.json")
+const {CartManager} = require("../dao/CartManager.js") 
+
 const router = Router()
 
 const cartsFile = './src/data/carts.json';

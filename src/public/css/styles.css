@@ -1,0 +1,30 @@
+body{
+    padding: 1%;
+}
+#productList{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* grid-template-columns: 25% 25% 25% 25%; */
+    grid-template-rows: auto;
+    margin: 2%;
+}
+.card{
+    margin-bottom: 20px;
+
+}
+#formContainer{
+    width: 40%;
+    margin: 0 auto;
+    /* border: black solid 1px; */
+    padding: 3%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 2px 1px gray;
+}
+label, input, select{
+    display: block;
+    margin-bottom: 2%;
+    
+}
+#description{
+    height: 100px;
+}

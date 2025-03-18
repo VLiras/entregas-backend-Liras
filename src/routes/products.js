@@ -1,16 +1,21 @@
-const {Router} = require("express")
-const {ProductManager} = require("../dao/ProductManager.js")
+const {Router} = require('express')
+// const {} = require('../app.js')
+const {ProductManager} = require('../dao/ProductManager.js');
+const io = require('../app.js');
+// import { ProductManager } from "../dao/ProductManager"
+// const io = require("../app.js");
 
 
 const router = Router()
 
 const productsFile = "./src/data/products.json";
-
 const prodManager = new ProductManager(productsFile)
+
 
 router.get("/", async (req, res) => {
     try{
         const products = await prodManager.getProducts()
+        // const products = await productManager.getProducts()
         res.setHeader('Content-Type','application/json');
         res.status(200).json(products)
     }
@@ -23,6 +28,7 @@ router.get("/:id", async (req, res) => {
     try{
         const id = Number(req.params.id)
         const product = await prodManager.getProductById(id)
+        // const product = await productManager.getProductById(id)
         if(!product){
             res.status(404).json({message:`Error: el producto con id ${id} no existe`})
             return
@@ -36,31 +42,33 @@ router.get("/:id", async (req, res) => {
 
 router.post("/",async (req, res) => {
     try{
-        const {title, description,code,price,status, stock, category} = req.body
-        
+        // const {title, description,code,price,status, stock, category, thumbnails} = req.body
+        const object = req.body
+        console.log(object)
         // Validaciones
-        if(!title || !description || !code || !status || !category){
-            res.status(400).json({message: "Falta completar campos"})
-            return
-        } 
-        if(price == 0 || price == null || isNaN(price)){
-            res.status(400).json({message:"El producto no tiene precio o es invalido"})
-            return
-        }
-        if(stock == 0 || stock == null){
-            res.status(400).json({message:"El producto no tiene stock o es invalido"})
-            return
-        }
-                
+        // if(!title || !description || !code || !status || !category){
+        //     res.status(400).json({message: "Falta completar campos"})
+        //     return
+        // } 
+        // if(price == 0 || price == null || isNaN(price)){
+        //     res.status(400).json({message:"El producto no tiene precio o es invalido"})
+        //     return
+        // }
+        // if(stock == 0 || stock == null){
+        //     res.status(400).json({message:"El producto no tiene stock o es invalido"})
+        //     return
+        // }
         // Agregado del producto
         await prodManager.addProduct(req.body)
 
-        res.status(201).json({message:"El producto se ha creado exitosamente!"})
-        return
+        // await productManager.addProduct(req.body)
+
+        // req.io.emit("newProduct", req.body)
+
+        return res.status(201).json({message:"El producto se ha creado exitosamente!"})
     }
     catch(err){
-        res.status(500).json({message:`Error al agregar el producto: ${err.message}`})
-        return
+        return res.status(500).json({message:`Error al agregar el producto: ${err.message}`})
     }
 })
 
@@ -74,6 +82,7 @@ router.put("/:id", async (req, res) => {
         }
 
         const product = await prodManager.getProductById(id)
+        // const product = await productManager.getProductById(id)
 
         if(!product){
             res.status(404).json({message:`Error: el producto con id ${id} no existe`})
@@ -91,6 +100,8 @@ router.put("/:id", async (req, res) => {
 
         // Actualización del producto
         await prodManager.updateProduct(id, req.body)
+        // await productManager.updateProduct(id, req.body)
+
         res.status(200).json({message:"El producto se ha actualizado con exito"})
         return
     }
@@ -108,16 +119,19 @@ router.delete("/:id", async (req, res) => {
             return
         }
         const product = await prodManager.getProductById(id)
+        // const product = await productManager.getProductById(id)
         if(!product){
             res.status(404).json({message:`Error: el producto con id ${id} no existe`})
             return
         }
         await prodManager.deleteProduct(id)
-        res.status(200).json({message:"El producto se ha eliminado con exito"})
-        return
+        // await productManager.deleteProduct(id)
+        
+        req.io.emit("dropProduct", product)
+        return res.status(200).json({message:"El producto se ha eliminado con exito"})
     }
     catch(err){
-        res.status(500).json({message: `Error al eliminar el producto de id ${req.params.id}: ${err.message}`})
+        return res.status(500).json({message: `Error al eliminar el producto de id ${req.params.id}: ${err.message}`})
     }
 })
 

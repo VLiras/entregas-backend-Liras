@@ -1,0 +1,59 @@
+
+<div id="formContainer">
+    <form id="form" method="post" action="/api/products">
+        <div class="mb-3">
+            <label for="title" class="form-label">Titulo</label>
+            <input type="text" name="title" id="title" class="form-control" required>
+            
+            <label for="description" class="form-label">Descripcion</label>
+            <textarea name="description" id="description" class="form-control"></textarea>
+            
+            <label for="category" form="form-label">Categoria</label>
+            <input type="text" name="category" id="category" class="form-control" required>
+
+            <label for="code" form="form-label">Codigo</label>
+            <input type="text" name="code" id="code" class="form-control" required>
+
+            <label for="price" class="form-label">Precio</label>
+            <input type="number" name="price" id="price" class="form-control" required>
+            
+            <label for="stock" class="form-label">Stock</label>
+            <input type="number" name="stock" id="stock" class="form-control" required>
+            
+            <label for="status" class="form-label">Estado</label>
+            <select name="status" id="status" class="form-select">
+                <option value="true">Disponible</option>
+                <option value="false">No Disponible</option>
+            </select>
+            
+            <label for="thumbnail" class="form-label">Imagenes</label>
+            <input type="file" name="thumbnail" id="thumbnail">
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Añadir</button>
+    </form>
+</div>
+<hr>
+<h1>Listado de Productos</h1>
+<div id="productList">
+    {{#each products}}
+    <div id={{id}} class="card product" style="width: 18rem;">
+        <img src={{thumbnails}} class="card-img-top" alt="product_image">
+        <div class="card-body">
+            <h5 class="card-title">{{title}}</h5>
+            <p class="card-text">{{description}}</p>
+            <p class="card-text">Precio: ${{price}}</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-primary">Ver mas</a>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="dropButton btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

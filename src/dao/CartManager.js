@@ -1,4 +1,4 @@
-const fs = require("fs")
+const fs = require('fs')
 
 // clase CartManager
 class CartManager {
@@ -72,7 +72,6 @@ const app = async () => {
     await manager.addProductToCart(1, 2, 4)
     console.log(await manager.getCart(1))
 }
-
 
 module.exports = {
     CartManager

@@ -1,0 +1,20 @@
+<h1>Home</h1>
+
+<div id="productList">
+    {{#each products}}
+    <div id={{id}} class="card product" style="width: 18rem;">
+        <img src={{thumbnails}} class="card-img-top" alt="product_image">
+        <div class="card-body">
+            <h5 class="card-title">{{title}}</h5>
+            <p class="card-text">{{description}}</p>
+            <p class="card-text">Precio: ${{price}}</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-primary">Ver mas</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
