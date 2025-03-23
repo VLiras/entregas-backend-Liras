@@ -59,8 +59,6 @@ router.post("/",async (req, res) => {
         // Agregado del producto
         await prodManager.addProduct(req.body)
 
-        await productManager.addProduct(req.body)
-
         req.io.emit("newProduct", req.body)
 
         return res.status(201).json({message:"El producto se ha creado exitosamente!"})
