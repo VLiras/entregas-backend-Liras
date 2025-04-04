@@ -1,0 +1,12 @@
+<h1>Carrito</h1>
+<hr>
+<div id="cartContainer">
+    {{#each products}}
+    <div class="card product" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Id Producto: {{product}}</h5>
+            <p class="card-text">Cantidad: {{quantity}}</p>
+        </div>
+    </div>
+    {{/each}}
+</div>

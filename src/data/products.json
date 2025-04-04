@@ -9,7 +9,7 @@
           "status": true,
           "category": "Celulares",
           "thumbnails": [
-               "./images/Galaxy-a31.jpeg"
+               "/images/Galaxy-a31.jpeg"
           ]
      },
      {
@@ -73,5 +73,18 @@
           "status": "true",
           "stock": "12",
           "thumbnails": []
+     },
+     {
+          "id": 7,
+          "title": "Apple Watch 5",
+          "description": "Un xiaomi",
+          "code": "APW5",
+          "price": 240,
+          "status": true,
+          "stock": 12,
+          "category": "Smartwatch",
+          "thumbnails": [
+               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEnDYGedBBUaCS6v9K-nt8HnwxFIxrqDzTKw&s"
+          ]
      }
 ]

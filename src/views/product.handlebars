@@ -1,0 +1,34 @@
+{{#each productView}}
+<div id="productContainer" class="row" data-pid="{{_id}}">
+    <div id="imageContainer" class="col-6">
+        <img id="productImage" src={{thumbnails}} alt="samsunga34">
+    </div>
+    <div id="productData" class="col-6">
+        <p>
+            <strong>{{title}}</strong>
+        </p>
+        <p>{{description}}</p>
+        <div id="price">
+            <h3>U$S {{price}}</h3>
+        </div>
+        <div id="data">
+            <ul>
+                <li>Stock: {{stock}} </li>
+                <li>Categoria: {{category}} </li>
+                {{#if status}}
+                    <li>Estado: Disponible </li>
+                {{/if}}
+                <li>Codigo: {{code}} </li>
+            </ul>
+        </div>
+        <div>
+            <input type="text" class="form-control" name="cartInput" id="cartInput" placeholder="Id del carrito...">
+        </div>
+        <button id="addToCart" type="button" class="btn btn-primary">
+            Agregar al carrito
+        </button>
+    </div>
+    {{/each}}
+</div>
+
+

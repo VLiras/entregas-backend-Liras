@@ -1,20 +1,51 @@
-<h1>Home</h1>
-
+<h1>Listado de Productos</h1>
+<hr>
+<div id="navigation">
+    <a href="/products" class="btn btn-secondary">Todo</a>
+    <a href="/products?category=Celulares" class="btn btn-secondary">Celulares</a>
+    <a href="/products?category=Computadoras" class="btn btn-secondary">Computadoras</a>
+    <a href="/products?category=Tablets" class="btn btn-secondary">Tablets</a>
+    <a href="/products?category=Auriculares" class="btn btn-secondary">Auriculares</a>
+</div>
+<div class="mt-3 mb-3">
+    <input type="text" id="addToCartInput" class="form-control w-25" placeholder="Id del carrito..."><h1>Listado de Productos</h1>
+<hr>
 <div id="productList">
     {{#each products}}
-    <div id={{id}} class="card product" style="width: 18rem;">
-        <img src={{thumbnails}} class="card-img-top" alt="product_image">
+    <div data-pid="{{id}}" class="card product" style="width: 18rem;">
+        <img src={{thumbnails}} class="card-img-top cardImage" alt="product_image">
         <div class="card-body">
             <h5 class="card-title">{{title}}</h5>
             <p class="card-text">{{description}}</p>
             <p class="card-text">Precio: ${{price}}</p>
             <div class="row">
                 <div class="col-md-6">
-                    <a href="#" class="btn btn-primary">Ver mas</a>
+                    <a href="/products/{{id}}" class="btn btn-primary">Ver mas</a>
                 </div>
-                
+                <div class="col-md-6">
+                    <button class="addToCartButton btn btn-primary">Agregar al Carrito</button>
+                </div>
             </div>
         </div>
     </div>
     {{/each}}
 </div>
+
+<div id="pagContainer">
+    <nav aria-label="Page navigation example">
+        <ul id="pagination" class="pagination">
+            {{#if hasPrevPage}}
+                <li class="page-item"><a class="page-link" href="/products?page={{prevPage}}&limit={{limit}}">Anterior</a></li>
+            {{/if}}
+            <li class="page-item"><a class="page-link" href="/products?page=1&limit={{limit}}">1</a></li>
+            <li class="page-item"><a class="page-link" href="/products?page=2&limit={{limit}}">2</a></li>
+            <li class="page-item"><a class="page-link" href="/products?page=3&limit={{limit}}">3</a></li>
+            {{#if hasNextPage}}
+                <li class="page-item"><a class="page-link" href="/products?page={{nextPage}}&limit={{limit}}">Siguiente</a></li>
+                <li class="page-item"><a class="page-link" href="/products?page={{totalPages}}&limit={{limit}}">Ultima Pág.</a></li>
+            {{/if}}
+        </ul>
+    </nav>
+</div>
+<script src="/js/list.js"></script>
+

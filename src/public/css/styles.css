@@ -4,7 +4,6 @@ body{
 #productList{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    /* grid-template-columns: 25% 25% 25% 25%; */
     grid-template-rows: auto;
     margin: 2%;
 }
@@ -15,7 +14,6 @@ body{
 #formContainer{
     width: 40%;
     margin: 0 auto;
-    /* border: black solid 1px; */
     padding: 3%;
     border-radius: 10px;
     box-shadow: 0px 0px 2px 1px gray;
@@ -28,3 +26,42 @@ label, input, select{
 #description{
     height: 100px;
 }
+#pagContainer{
+    padding: 1%;
+}
+.cardImage{
+    max-width: 286px;
+}
+
+/* Product */
+#productContainer{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    border-radius: 8px;
+    box-shadow: 0px 0px 4px 4px grey;
+    width: 60%;
+    margin: 0% auto;
+    margin-top: 8%;
+    padding: 2%;
+}
+#productImage{
+    max-width: 300px;
+    max-height: 300px;
+}
+#imageContainer{
+    width: 100%;
+    padding: 2%;
+}
+#productData{
+    width: 100%;
+    padding: 2%;
+}
+
+/* Carts */
+#cartContainer{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+

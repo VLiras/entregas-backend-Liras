@@ -1,38 +1,40 @@
-const {Router} = require('express')
-// const {} = require('../app.js')
-const {ProductManager} = require('../dao/ProductManager.js');
-const io = require('../app.js');
-// import { ProductManager } from "../dao/ProductManager"
-// const io = require("../app.js");
-
+import { Router } from 'express';
+import { ProductManager } from '../dao/ProductManager.js';
+import { isValidObjectId } from 'mongoose';
 
 const router = Router()
 
-const productsFile = "./src/data/products.json";
-const prodManager = new ProductManager(productsFile)
-
+const prodManager = new ProductManager()
 
 router.get("/", async (req, res) => {
+    let {page, limit} = req.query
+    if(!page){
+        page = 1
+    }
+    if(!limit){
+        limit = 10
+    }
     try{
-        const products = await prodManager.getProducts()
-
+        const products = await prodManager.getProducts(page, limit)
         res.setHeader('Content-Type','application/json');
-        res.status(200).json(products)
+        return res.status(200).json(products)
     }
     catch(err){
-        res.status(500).json({message:`Error al obtener los productos: ${err.message}`})
+        return res.status(500).json({message:`Error al obtener los productos: ${err.message}`})
     }
 })
 
 router.get("/:id", async (req, res) => {
+    const {id} = req.params
+    if(!isValidObjectId(id)){
+        return res.status(400).json({error:'El id ingresado es invalido'})
+    }
     try{
-        const id = Number(req.params.id)
         const product = await prodManager.getProductById(id)
         if(!product){
-            res.status(404).json({message:`Error: el producto con id ${id} no existe`})
-            return
+            return res.status(404).json({message:`Error: el producto con id ${id} no existe`})
         }
-        res.status(200).json(product)
+        return res.status(200).json(product)
     }
     catch(err){
         res.status(500).json({message:`Error al obtener el producto: ${err.message}`})
@@ -41,22 +43,20 @@ router.get("/:id", async (req, res) => {
 
 router.post("/",async (req, res) => {
     try{
-        const {title, description,code,price,status, stock, category, thumbnails} = req.body
-   
+        const {title, description,code,price,status, stock, category} = req.body
         // Validaciones
         if(!title || !description || !code || !status || !category){
             res.status(400).json({message: "Falta completar campos"})
             return
         } 
-        if(price == 0 || price == null || isNaN(price)){
+        if(price == 0 || !price || isNaN(price)){
             res.status(400).json({message:"El producto no tiene precio o es invalido"})
             return
         }
-        if(stock == 0 || stock == null){
+        if(stock == 0 || !stock){
             res.status(400).json({message:"El producto no tiene stock o es invalido"})
             return
         }
-        // Agregado del producto
         await prodManager.addProduct(req.body)
 
         req.io.emit("newProduct", req.body)
@@ -68,64 +68,43 @@ router.post("/",async (req, res) => {
     }
 })
 
-// Metodo put para actualizar un producto 
+
 router.put("/:id", async (req, res) => {
+    const {id} = req.params
+    if(!isValidObjectId(id)){
+        return res.status(400).json({error:'El id ingresado es invalido'})
+    }
+    const {title, price, code} = req.body
+    if(!title || !code){
+        return res.status(400).json({message: "Complete los campos a modificar"})
+    }
+    if(!price || price <= 0){
+        return res.status(400).json({message: "El precio ingresado es invalido"})
+    }
     try{
-        const id = Number(req.params.id)
-        if(isNaN(id)){
-            res.status(400).json({message: "El id es invalido"})
-            return
-        }
-
-        const product = await prodManager.getProductById(id)
-
-        if(!product){
-            res.status(404).json({message:`Error: el producto con id ${id} no existe`})
-            return
-        }
-        const {title, price, code} = req.body
-        if(!title || !code){
-            res.status(400).json({message: "Complete los campos a modificar"})
-            return
-        }
-        if(!price || price <= 0){
-            res.status(400).json({message: "El precio ingresado es invalido"})
-            return
-        }
-
-        // Actualización del producto
         await prodManager.updateProduct(id, req.body)
-    
-        res.status(200).json({message:"El producto se ha actualizado con exito"})
-        return
+        return res.status(200).json({message:"El producto se ha actualizado con exito"})
     }
     catch(err){
-        res.status(500).json({message: `Error al actualizar el producto de id ${req.params.id}: ${err.message}`})
+        return res.status(500).json({message: `Error al actualizar el producto de id ${req.params.id}: ${err.message}`})
     }
 })
 
-// Metodo delete
+
 router.delete("/:id", async (req, res) => {
+    const {id} = req.params
+    if(!isValidObjectId(id)){
+        return res.status(400).json({error:'El id ingresado es invalido'})
+    }
     try{
-        const id = Number(req.params.id)
-        if(isNaN(id)){
-            res.status(400).json({message: "Error: el id es invalido"})
-            return
-        }
-        const product = await prodManager.getProductById(id)
-        // const product = await productManager.getProductById(id)
-        if(!product){
-            res.status(404).json({message:`Error: el producto con id ${id} no existe`})
-            return
-        }
         await prodManager.deleteProduct(id)
             
-        req.io.emit("dropProduct", product)
-        return res.status(200).json({message:"El producto se ha eliminado con exito"})
+        // req.io.emit("dropProduct", product)
+        return res.status(200).json({message:"El producto se ha eliminado"})
     }
     catch(err){
         return res.status(500).json({message: `Error al eliminar el producto de id ${req.params.id}: ${err.message}`})
     }
 })
 
-module.exports = router
+export default router

@@ -1,47 +1,31 @@
-const socket = io()
+const productContainer = document.getElementById('productContainer')
+const addToCartButton = document.getElementById('addToCart')
+const cartIdValue = document.getElementById('cartInput')
+let productId = productContainer.dataset.pid;
 
-const getThumbnails = () => {
-    const thumb = document.getElementById('thumbnail').value
-    if(thumb == undefined || thumb == ''){
-        return []
-    }
-    return thumb
+const cartId = () => {
+    const value = cartIdValue.value;
+    return value
 }
 
-const sendProduct = () => {
-    const newProduct = {
-        title: document.getElementById('title').value, 
-        description:document.getElementById('description').value, 
-        code:document.getElementById('code').value, 
-        price: document.getElementById('price').value,
-        status: document.getElementById('status').value,
-        stock:document.getElementById('stock').value, 
-        thumbnails: getThumbnails()
-    }
-    
-    socket.emit('new', newProduct)
-    return
-}
-const form = document.getElementById('form')
-form.addEventListener('submit', e => {
+const addToCart = async (e) => {
     e.preventDefault();
-    sendProduct()
-})
-
-socket.on("newProduct", () => {
-    window.location.reload()
-})
-
-const dropButton = document.querySelectorAll('.dropButton')
-dropButton.forEach(button => {
-    button.addEventListener('click', () => {
-        // Busco el id del boton eliminar de cada card
-        const id = button.parentNode.parentNode.parentNode.id
-        socket.emit('drop', Number(id))
+    await fetch(`/api/carts/${cartId()}/product/${productId}`, {
+        method: 'POST',
+        cors:'no-cors',
+        headers: {
+            'Content-Type': 'application/json',
+        }, 
+        body: JSON.stringify({
+            'quantity': 1
+        })
     })
-})
+    if (!response.ok) {
+        throw new Error('Error al agregar el producto al carrito');
+    }
+    console.log('Enviado exitosamente')
+}
 
-
-socket.on("deleteProduct", () => {
-    window.location.reload()
+addToCartButton.addEventListener('click', (e) => {
+    addToCart(e)
 })

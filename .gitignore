@@ -1,1 +1,4 @@
 node_modules
+src/data
+src/config/productList.js
+src/dao/pruebaCarrito.js
